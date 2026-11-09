@@ -177,11 +177,36 @@ Evidencias obtenidas durante el desarrollo:
 
 **Pendiente:** organizar las capturas en el repositorio, completar pruebas faltantes, registrar al menos una corrección o revisión, y solicitar revisión de otra pareja.
 
+### Experimento de reutilización y productividad
+
+Antes del experimento se conservó en la rama `feat/autoplay` un commit con la versión funcional. El experimento se realizó en la rama `experimento/reutilizacion`:
+
+```jsx
+<section aria-label="Ejemplos de testimonios">
+  <Testimonial item={testimonios[0]} />
+  <Testimonial item={testimonios[1]} />
+</section>
+```
+
+Con el bloque agregado dentro de `App`, se modificó una sola regla de `.testimonial-card` (`border-left: 6px solid #125ca3;`). Las tres tarjetas en pantalla, la principal y las dos de ejemplo, recibieron el borde sin modificar su JSX, porque todas usan el mismo componente `Testimonial`. La navegación siguió funcionando sin errores. Después se regresó a `feat/autoplay`, con lo que la aplicación quedó restaurada.
+
+**Comparación razonada:**
+
+| Cambio solicitado | Lugar principal del cambio |
+|---|---|
+| Agregar un testimonio | `data.js` |
+| Modificar la tarjeta de todas las personas | `Testimonial.jsx` y sus estilos |
+| Cambiar los textos de los controles | `Controls.jsx` |
+| Cambiar el comportamiento de navegación | `App.jsx` |
+| Modificar apariencia sin cambiar navegación | `styles.css` |
+
 ## 11. Estado del proyecto
 
 **Etapa básica:** implementada, con verificaciones y revisión por completar.
 
 **Reproducción automática:** implementada; pruebas A01–A07 aprobadas.
+
+**Experimento de reutilización:** realizado en la rama `experimento/reutilizacion`; aplicación restaurada.
 
 **Publicación web:** opcional para esta práctica.
 
