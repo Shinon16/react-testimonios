@@ -161,9 +161,11 @@ Tablero de trabajo con las columnas:
 
 **Avance inicial:** preparación del entorno, creación de componentes, carga de datos, navegación, estilos y primeras pruebas.
 
-**Siguiente actividad:** reproducción automática con `useEffect`, a desarrollar en pareja, iniciando Pablo como Driver y su compañero como Navigator.
+**Segunda fase:** reproducción automática con `useEffect`, pruebas A01–A07, experimento de reutilización y documentación, desarrollados en pareja intercalando los roles.
 
 **Registro de tareas y cambios de roles:**
+
+A partir de la ampliación nos fuimos intercalando en cada misión: Pablo comenzó como Driver y Christian como Navigator, y en cada avance siguiente intercambiamos los roles. Los commits de esta fase se subieron desde la cuenta ShieldByte.
 
 | Avance | Driver (escribe) | Navigator (revisa) | Actividad |
 |---|---|---|---|
