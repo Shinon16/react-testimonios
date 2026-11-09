@@ -73,6 +73,11 @@ export default function App() {
       <p className="counter">
         Testimonio {index + 1} de {total}
       </p>
+
+      <section aria-label="Ejemplos de testimonios">
+        <Testimonial item={testimonios[0]} />
+        <Testimonial item={testimonios[1]} />
+      </section>
     </main>
   );
 }
