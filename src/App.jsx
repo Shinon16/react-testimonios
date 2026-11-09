@@ -56,12 +56,21 @@ export default function App() {
       <Testimonial item={testimonios[index]} />
 
       <Controls
-        onPrev={prev}
-        onNext={next}
-        onRandom={random}
+        onPrev={() => navegar(prev)}
+        onNext={() => navegar(next)}
+        onRandom={() => navegar(random)}
       />
 
-      <p className="counter" aria-live="polite">
+      {total > 1 && (
+        <button
+          type="button"
+          onClick={() => setReproduciendo(actual => !actual)}
+        >
+          {reproduciendo ? 'Pausar' : 'Reanudar'}
+        </button>
+      )}
+
+      <p className="counter">
         Testimonio {index + 1} de {total}
       </p>
     </main>

@@ -15,7 +15,7 @@ Como visitante de un sitio web, quiero consultar testimonios de clientes mediant
 ## 2. Integrantes
 
 - [Christian Raul Paramo Bautista]
-- Pablo [apellido]
+- Pablo Alexander Alejos Macías
 
 **Metodología:** Scrum y técnicas de Extreme Programming (XP), especialmente Pair Programming.
 
@@ -70,12 +70,13 @@ Para generar la versión de producción, ejecutar `npm run build`.
 - Diseño adaptable a dispositivos móviles, tabletas y computadoras.
 - Estilos de foco visible para los controles.
 
-**Etapa de ampliación — Pendiente:**
+**Etapa de ampliación — Reproducción automática:**
 
 - Reproducción automática cada cinco segundos.
-- Botones Pausar y Reanudar.
-- Detención del avance automático al navegar manualmente.
+- Botón Pausar / Reanudar (solo aparece con dos o más testimonios); la reproducción comienza pausada.
+- Detención del avance automático al navegar manualmente; solo Reanudar lo vuelve a activar.
 - Limpieza del temporizador mediante `useEffect`.
+- Se retiró `aria-live` del contador para evitar anuncios repetitivos cada cinco segundos.
 
 ## 7. Decisiones de diseño
 
@@ -88,6 +89,33 @@ El componente `Controls` recibe callbacks para comunicar las acciones del usuari
 Se implementó una validación para evitar acceder a registros inexistentes cuando el arreglo está vacío.
 
 La interfaz utiliza Flexbox, unidades flexibles y una media query para adaptar los controles y tarjetas a diferentes tamaños de pantalla.
+
+**Reproducción automática con `useEffect`:**
+
+```jsx
+const [reproduciendo, setReproduciendo] = useState(false);
+
+useEffect(() => {
+  if (!reproduciendo || total < 2) return;
+  const intervalo = setInterval(() => {
+    setIndex(actual => (actual + 1) % total);
+  }, 5000);
+  return () => clearInterval(intervalo);
+}, [reproduciendo, total]);
+
+function navegar(accion) {
+  setReproduciendo(false);
+  accion();
+}
+```
+
+- El temporizador es un sistema externo al cálculo del JSX, por eso se crea dentro de un efecto y no en el cuerpo de `App`; si estuviera en el cuerpo, cada renderizado crearía otro intervalo.
+- El efecto solo crea el intervalo cuando `reproduciendo` es verdadero y hay al menos dos registros.
+- La función de limpieza (`return () => clearInterval(intervalo)`) elimina el intervalo antes de que el efecto vuelva a ejecutarse (por ejemplo, al pausar) y al desmontar el componente. Así no se acumulan intervalos ni se acelera el avance.
+- Las dependencias `[reproduciendo, total]` indican qué valores usados por el efecto obligan a sincronizarlo de nuevo.
+- `setIndex(actual => ...)` calcula el siguiente índice a partir del estado vigente, sin capturar un índice antiguo.
+- `navegar` pausa la reproducción y después ejecuta la acción manual. Los callbacks se pasan como `() => navegar(prev)` para que se ejecuten al hacer clic y no durante el renderizado.
+- Se conservó `StrictMode`: en desarrollo React monta, limpia y vuelve a montar el efecto, y la limpieza correcta evita intervalos duplicados.
 
 ## 8. Registro de pruebas
 
@@ -105,6 +133,20 @@ La interfaz utiliza Flexbox, unidades flexibles y una media query para adaptar l
 | P10 | Compilación de producción | Aprobado; pendiente revisión de consola del navegador |
 
 **Resultado de compilación:** 19 módulos transformados; compilación completada en 346 ms, sin errores de compilación.
+
+### Pruebas de reproducción automática
+
+| ID | Prueba | Resultado registrado |
+|---|---|---|
+| A01 | Activación | Aprobado: tras Reanudar avanza aproximadamente cada 5 s (a los 4.9 s sigue en 1 de 8; a los 5.1 s pasa a 2 de 8). |
+| A02 | Pausa | Aprobado: con Pausar el testimonio se mantiene después de más de 5 s. |
+| A03 | Acción manual | Aprobado: Anterior, Siguiente y Aleatorio cambian la tarjeta y dejan pausada la reproducción. |
+| A04 | Reanudación | Aprobado: tras varios ciclos de pausa y reanudación avanza uno cada 5 s, sin aceleración. |
+| A05 | Límites | Aprobado: durante el autoplay, desde 8 de 8 pasa a 1 de 8. |
+| A06 | Pocos datos | Aprobado: con uno o cero registros no se crea ningún intervalo y no aparece el botón. |
+| A07 | Limpieza | Aprobado: al alternar pausa y reproducción 10 veces en modo desarrollo nunca hubo más de un intervalo de 5 s activo. |
+
+**Corrección registrada:** al agregar el efecto y la función `navegar`, `npm run lint` marcó `navegar` como definida sin usar (`no-unused-vars`). Se corrigió al conectar los controles con `() => navegar(...)`; después `npm run lint` y `npm run build` terminaron sin errores.
 
 ## 9. Organización del trabajo
 
@@ -139,7 +181,7 @@ Evidencias obtenidas durante el desarrollo:
 
 **Etapa básica:** implementada, con verificaciones y revisión por completar.
 
-**Reproducción automática:** pendiente de desarrollo y pruebas A01–A07.
+**Reproducción automática:** implementada; pruebas A01–A07 aprobadas.
 
 **Publicación web:** opcional para esta práctica.
 
