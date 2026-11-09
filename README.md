@@ -234,12 +234,10 @@ Con el bloque agregado dentro de `App`, se modificó una sola regla de `.testimo
 
 ## 12. Reflexión y conclusiones
 
-Cada integrante responde por separado las preguntas de la guía: "Detente y explica" (sección 7), "Evidencias de comprensión" (sección 10), "Preguntas individuales" (sección 11) y "Reflexión individual breve" (sección 12).
-
 ### Christian Raul Paramo Bautista
 
-_Pendiente._
+En la etapa básica preparé el entorno con Vite y construí la estructura de la aplicación: los datos en `data.js`, la tarjeta en `Testimonial` y los botones en `Controls`, con `App` como el único componente que guarda el índice. Lo más importante que entendí fue el flujo de los datos: el padre decide qué testimonio mostrar y lo pasa por props, y los hijos solo presentan la información o avisan de una acción mediante callbacks. También comprobé por qué se usa el operador `%` en la navegación: sin él, al llegar al último testimonio se intentaría leer una posición que no existe. Separar los datos de la presentación hizo que agregar los cinco testimonios nuevos fuera solo cuestión de editar `data.js`, sin tocar ningún componente.
 
 ### Pablo Alexander Alejos Macías
 
-_Pendiente._
+En la ampliación trabajé la reproducción automática y entendí la diferencia entre responder a un evento y sincronizarse con algo externo: el clic se atiende en el momento, mientras que el temporizador debe existir solo mientras la reproducción está activa, y por eso vive en un `useEffect`. La función de limpieza con `clearInterval` es lo que evita que se acumulen intervalos al pausar y reanudar, y lo comprobé en la prueba A07. Con el experimento de reutilización vi que una sola regla de `.testimonial-card` cambió todas las tarjetas a la vez, porque todas usan el mismo componente. Mi conclusión es que React ayuda a localizar y verificar los cambios con claridad, aunque para una página tan pequeña también implica instalar herramientas y aprender conceptos que con HTML y JavaScript simple no serían necesarios.
