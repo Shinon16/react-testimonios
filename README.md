@@ -119,18 +119,20 @@ function navegar(accion) {
 
 ## 8. Registro de pruebas
 
-| ID | Prueba | Resultado registrado |
-|---|---|---|
-| P01 | Mostrar el primer testimonio | Aprobado |
-| P02 | Navegación Siguiente | Aprobado |
-| P03 | Límite superior | Aprobado |
-| P04 | Límite inferior | Aprobado |
-| P05 | Selección aleatoria | Aprobado |
-| P06 | Funcionamiento con un registro | Visualización comprobada; confirmar acciones de botones |
-| P07 | Funcionamiento sin registros | Visualización aprobada |
-| P08 | Ampliación a ocho testimonios | Ocho registros integrados; completar verificación de límites |
-| P09 | Diseño responsive y accesibilidad | Tres tamaños y foco visible comprobados; confirmar activación por teclado |
-| P10 | Compilación de producción | Aprobado; pendiente revisión de consola del navegador |
+P01 a P05 se ejecutaron con los tres registros iniciales; P06 y P07 con datos temporales de uno y cero registros (después se restauró `data.js`); P08 a P10 con los ocho registros finales.
+
+| ID | Prueba | Resultado obtenido | Estado |
+|---|---|---|---|
+| P01 | Inicio | Se muestra Ana Pérez y "Testimonio 1 de 3". | Aprobado |
+| P02 | Siguiente | Desde Ana, Siguiente muestra Luis García y "2 de 3". | Aprobado |
+| P03 | Límite superior | Desde María, Siguiente muestra Ana. | Aprobado |
+| P04 | Límite inferior | Desde Ana, Anterior muestra María. | Aprobado |
+| P05 | Aleatorio | 10 clics seguidos; nunca repitió el testimonio actual. También se revisó la lógica: el salto va de 1 a `total − 1`, por lo que no puede caer en el mismo índice. | Aprobado |
+| P06 | Un registro | Anterior, Siguiente y Aleatorio mantienen a Ana ("1 de 1"); no aparece Pausar/Reanudar; sin errores en consola. | Aprobado |
+| P07 | Sin registros | Aparece "No hay testimonios disponibles."; no se muestra ningún control; sin errores. | Aprobado |
+| P08 | Ampliación de datos | Contador de 8; Anterior desde el primero muestra Diego Fernández ("8 de 8") y Siguiente regresa a Ana. | Aprobado |
+| P09 | Presentación | Sin desplazamiento horizontal en 320, 768 y 1280 px; textos largos ajustados; Tab recorre los botones en orden y Enter o Espacio los activan; foco visible. | Aprobado |
+| P10 | Compilación | `npm run build` y `npm run lint` sin errores; 0 errores de aplicación en la consola del navegador. | Aprobado |
 
 **Resultado de compilación:** 19 módulos transformados; compilación completada en 346 ms, sin errores de compilación.
 
@@ -161,21 +163,41 @@ Tablero de trabajo con las columnas:
 
 **Siguiente actividad:** reproducción automática con `useEffect`, a desarrollar en pareja, iniciando Pablo como Driver y su compañero como Navigator.
 
-Se registrarán los cambios de roles, dificultades encontradas, revisiones y mejoras.
+**Registro de tareas y cambios de roles:**
+
+| Avance | Driver (escribe) | Navigator (revisa) | Actividad |
+|---|---|---|---|
+| 0. Etapa básica | Christian | Pablo (revisión antes de la ampliación) | Entorno, datos, tarjeta, navegación, estilos y primeras pruebas. |
+| 1. Reproducción automática | Pablo | Christian | Implementar `useEffect`, `setInterval` y `clearInterval`. |
+| 2. Controles de reproducción | Christian | Pablo | Integrar Pausar/Reanudar y detener el autoplay al navegar manualmente. |
+| 3. Pruebas A01–A07 | Pablo | Christian | Ejecutar pruebas y registrar resultados. |
+| 4. Experimento de reutilización | Christian | Pablo | Demostrar la reutilización de `Testimonial` y restaurar la aplicación. |
+| 5. Revisión y correcciones | Alternando | Alternando | Revisar código, corregir el aviso de ESLint, completar P06–P10 y comprobar la compilación. |
+| 6. Documentación final | Alternando | Alternando | Completar README, capturas y registro de colaboración. |
+
+**Revisión por otra pareja:**
+
+| Pareja revisora | Qué se revisó | Observaciones | Fecha |
+|---|---|---|---|
+| _Nombres de la pareja_ | Componentes (`App`, `Testimonial`, `Controls`) y casos de prueba P01–P10 / A01–A07 | | |
 
 ## 10. Evidencias y revisión
 
-Evidencias obtenidas durante el desarrollo:
+Capturas en `docs/capturas/`:
 
-- Funcionamiento de la primera tarjeta.
-- Navegación entre testimonios.
-- Pruebas con uno y cero registros.
-- Incorporación de los ocho testimonios.
-- Capturas responsive en 320, 768 y 1280 píxeles.
-- Evidencia de foco visible.
+| Archivo | Evidencia |
+|---|---|
+| [`320px.png`](docs/capturas/320px.png) | Vista móvil (320 px) |
+| [`768px.png`](docs/capturas/768px.png) | Vista tableta (768 px) |
+| [`1280px.png`](docs/capturas/1280px.png) | Vista escritorio (1280 px) |
+| [`foco-visible.png`](docs/capturas/foco-visible.png) | Foco visible en el botón Siguiente al navegar con Tab |
+
+Otras evidencias:
+
+- Registro P01–P10 y A01–A07 (sección 8).
+- Corrección registrada: aviso de ESLint en `navegar` (sección 8).
 - Compilación de producción exitosa.
-
-**Pendiente:** organizar las capturas en el repositorio, completar pruebas faltantes, registrar al menos una corrección o revisión, y solicitar revisión de otra pareja.
+- Experimento de reutilización en la rama `experimento/reutilizacion` (abajo).
 
 ### Experimento de reutilización y productividad
 
@@ -202,7 +224,7 @@ Con el bloque agregado dentro de `App`, se modificó una sola regla de `.testimo
 
 ## 11. Estado del proyecto
 
-**Etapa básica:** implementada, con verificaciones y revisión por completar.
+**Etapa básica:** terminada; pruebas P01–P10 aprobadas.
 
 **Reproducción automática:** implementada; pruebas A01–A07 aprobadas.
 
@@ -212,4 +234,12 @@ Con el bloque agregado dentro de `App`, se modificó una sola regla de `.testimo
 
 ## 12. Reflexión y conclusiones
 
-Pendiente de completar individualmente por cada integrante al terminar el desarrollo y la revisión del proyecto.
+Cada integrante responde por separado las preguntas de la guía: "Detente y explica" (sección 7), "Evidencias de comprensión" (sección 10), "Preguntas individuales" (sección 11) y "Reflexión individual breve" (sección 12).
+
+### Christian Raul Paramo Bautista
+
+_Pendiente._
+
+### Pablo Alexander Alejos Macías
+
+_Pendiente._
